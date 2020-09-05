@@ -12,3 +12,5 @@ spring:
 app:
   validador:
     chave: "\\d{44}"
+    total-lista-chaves: 20
+    total-chaves-validacao: 20
