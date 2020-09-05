@@ -26,11 +26,6 @@ public class ChaveDocumentoController implements ChaveDocumentoAPI {
     private final ValidadorChaveDocumentoService validadorChave;
 
     @Override
-    public String teste() {
-        return "sadf";
-    }
-
-    @Override
     public ResponseEntity<List<ChaveDocumentoResponseVO>> validarChaves(int idEmpresa, List<ChaveDocumentoRequestVO> chaves) {
         String mensageErro = validadorChave.validadorChavesRequest(idEmpresa, chaves);
 

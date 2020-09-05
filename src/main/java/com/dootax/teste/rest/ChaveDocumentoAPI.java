@@ -17,9 +17,6 @@ import static com.dootax.teste.util.MensagensSwagger.*;
 @RequestMapping("api/chave-documento")
 public interface ChaveDocumentoAPI {
 
-    @GetMapping("a")
-    String teste();
-
     @PutMapping("{idEmpresa}")
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = UPDATE_DOCS_CHAVE, notes = UPDATE_DOCS_CHAVE_NOTE)
