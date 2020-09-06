@@ -33,6 +33,9 @@ Este projeto é dividido em duas partes.
 <br>`mvn clean package`
 <br>`java -jar target/Teste-1.0.0-SNAPSHOT.jar`
 
+### acesso Swagger API
+`http://localhost:8080/swagger-ui/`
+
 ### Considerações finais sobre o projeto
 - Ficou faltando implementar os testes unitários, de integração como (Jpa e Api). 
   Os mesmos não foram implementados por falta de tempo.
