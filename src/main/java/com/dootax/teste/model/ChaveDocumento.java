@@ -34,4 +34,13 @@ public class ChaveDocumento {
     @Column(length = 10, nullable = false)
     private StatusChave status;
 
+    public static ChaveDocumento chaveDocumentoBuider(String idEmpresa, String valorChave) {
+        return ChaveDocumento
+                .builder()
+                .idEmpresa(new Integer(idEmpresa))
+                .valorChave(new BigInteger(valorChave))
+                .status(StatusChave.CRIADO)
+                .build();
+    }
+
 }

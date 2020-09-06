@@ -1,6 +1,8 @@
 package com.dootax.teste.batch;
 
-import com.dootax.teste.batch.tasklet.LerArquivosTask;
+import com.dootax.teste.batch.tasklet.LeitorArquivoTasklet;
+import com.dootax.teste.batch.tasklet.LeitorLinhasArquivosTasklet;
+import com.dootax.teste.batch.tasklet.PersistirLinhasTasklet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -28,6 +30,8 @@ public class BatchJobConfig {
         return jobs
                 .get("processarChavesDocumentosJob")
                 .start(processarArquivos())
+                .next(processarLinhas())
+                .next(processarPersistenciaLinhas())
                 .listener(jobListener)
                 .build();
     }
@@ -36,13 +40,39 @@ public class BatchJobConfig {
     protected Step processarArquivos() {
         return steps
                 .get("processarArquivos")
-                .tasklet(lerArquivosTask())
+                .tasklet(leitorArquivoTasklet())
                 .build();
     }
 
     @Bean
-    public LerArquivosTask lerArquivosTask() {
-        return new LerArquivosTask();
+    protected Step processarLinhas() {
+        return steps
+                .get("processarLinhas")
+                .tasklet(leitorLinhasArquivosTasklet())
+                .build();
+    }
+
+    @Bean
+    protected Step processarPersistenciaLinhas() {
+        return steps
+                .get("processarPersistenciaLinhas")
+                .tasklet(persistirLinhasTasklet())
+                .build();
+    }
+
+    @Bean
+    public LeitorArquivoTasklet leitorArquivoTasklet() {
+        return new LeitorArquivoTasklet();
+    }
+
+    @Bean
+    public LeitorLinhasArquivosTasklet leitorLinhasArquivosTasklet() {
+        return new LeitorLinhasArquivosTasklet();
+    }
+
+    @Bean
+    public PersistirLinhasTasklet persistirLinhasTasklet() {
+        return new PersistirLinhasTasklet();
     }
 
 }

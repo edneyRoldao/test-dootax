@@ -1,8 +1,9 @@
-package com.dootax.teste.service;
+package com.dootax.teste.service.impl;
 
 import com.dootax.teste.enums.StatusChave;
 import com.dootax.teste.model.ChaveDocumento;
 import com.dootax.teste.repository.ChaveDocumentoRepository;
+import com.dootax.teste.service.ChaveDocumentoService;
 import com.dootax.teste.vo.ChaveDocumentoRequestVO;
 import com.dootax.teste.vo.ChaveDocumentoResponseVO;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +13,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,6 +33,9 @@ public class ChaveDocumentoServiceImpl implements ChaveDocumentoService {
     @Value("${app.validador.chave}")
     private String validadorChaveRegex;
 
+    @Value("${app.validador.formato-linha}")
+    private String formatoLinhaRegex;
+
     private final ChaveDocumentoRepository repository;
 
     @Override
@@ -35,6 +43,15 @@ public class ChaveDocumentoServiceImpl implements ChaveDocumentoService {
         log.info("## ChaveDocumentoServiceImpl.salvarTodos ##");
         List<ChaveDocumento> chavesPersistidas = repository.saveAll(chaves);
         log.info("total chaves adicionadas no banco: {}", chavesPersistidas.size());
+    }
+
+    @Async
+    @Override
+    public Future<Integer> salvarTodosAsync(List<ChaveDocumento> chaves) {
+        log.info("## ChaveDocumentoServiceImpl.salvarTodos ##");
+        List<ChaveDocumento> chavesPersistidas = repository.saveAll(chaves);
+        log.info("total chaves adicionadas no banco: {}", chavesPersistidas.size());
+        return new AsyncResult<>(chavesPersistidas.size());
     }
 
     @Override
@@ -53,6 +70,23 @@ public class ChaveDocumentoServiceImpl implements ChaveDocumentoService {
         log.info("total chaves validadas {}.", chavesEncontradas.size());
 
         return chavesDocumentosResponseBuilder(chavesRequest, chavesEncontradas);
+    }
+
+    @Async
+    @Override
+    public Future<List<ChaveDocumento>> chavesDocumentosBuilder(Set<String> linhas) {
+        log.info("## ChaveDocumentoServiceImpl.chavesDocumentosBuilder ##");
+
+        List<ChaveDocumento> docs = new ArrayList<>();
+
+        linhas.forEach(linha -> {
+            if (linha.matches(formatoLinhaRegex)) {
+                String[] token = linha.split(";");
+                docs.add(ChaveDocumento.chaveDocumentoBuider(token[0], token[1]));
+            }
+        });
+
+        return new AsyncResult<>(docs);
     }
 
     @Override

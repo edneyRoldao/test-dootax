@@ -1,5 +1,6 @@
-package com.dootax.teste.service;
+package com.dootax.teste.service.impl;
 
+import com.dootax.teste.service.ValidadorChaveDocumentoService;
 import com.dootax.teste.vo.ChaveDocumentoRequestVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
