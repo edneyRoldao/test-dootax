@@ -79,25 +79,21 @@ public class LeitorLinhasArquivosTasklet implements Tasklet, StepExecutionListen
 
         log.info("Arquivos processados com sucesso");
 
+        Map<Path, Set<String>> mapaArquivos = new HashMap<>();
 
-        int contadorProcessos = 1;
-        for (Future<Map<Path, Set<String>>> processo : processosArquivos) {
-            Map<Path, Set<String>> mapaArquivos = processo.get();
-            Set<Path> paths = mapaArquivos.keySet();
-
-            arquivoService.deletarArquivosProcessadosValidos(paths);
-
-            // adicionando as linhas de cada arquivo em um map
-            int contadorPaths = 1;
-            for (Path path : paths) {
-                Integer numeroArquivo = contadorPaths + contadorProcessos;
-                Set<String> linhas = mapaArquivos.get(path);
-                mapaLinhasPorArquivo.put(numeroArquivo, linhas);
-                contadorPaths++;
-            }
-
-            contadorProcessos++;
+        for (Future<Map<Path, Set<String>>> processosArquivo : processosArquivos) {
+            mapaArquivos.putAll(processosArquivo.get());
         }
+
+        Integer total = 1;
+        Set<Path> paths = mapaArquivos.keySet();
+
+        for (Path path : paths) {
+            mapaLinhasPorArquivo.put(total, mapaArquivos.get(path));
+            total++;
+        }
+
+        arquivoService.deletarArquivosProcessadosValidos(paths);
     }
 
 }

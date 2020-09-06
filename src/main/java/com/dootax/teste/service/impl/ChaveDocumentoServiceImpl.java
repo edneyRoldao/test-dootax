@@ -94,7 +94,7 @@ public class ChaveDocumentoServiceImpl implements ChaveDocumentoService {
         log.info("## ChaveDocumentoServiceImpl.buscarDocumentosPaginado ##");
         Pageable pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by("id").ascending());
 
-        if (idEmpresa != 0 && Objects.nonNull(chave)) {
+        if (idEmpresa != 0 && Objects.nonNull(chave) && !chave.toString().equals("0")) {
             log.info(" buscarPorChaveAndIdEmmpresa. empresa: {}, chave: {}", idEmpresa, chave);
             return repository.buscarPorChaveAndIdEmmpresa(idEmpresa, chave, pageRequest);
         }
@@ -104,7 +104,7 @@ public class ChaveDocumentoServiceImpl implements ChaveDocumentoService {
             return repository.buscarPorIdEmpresa(idEmpresa, pageRequest);
         }
 
-        if (Objects.nonNull(chave)) {
+        if (Objects.nonNull(chave) && !chave.toString().equals("0")) {
             log.info(" buscarPorChave. chave: {}", chave);
             return repository.buscarPorChave(chave, pageRequest);
         }
