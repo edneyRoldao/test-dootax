@@ -42,3 +42,6 @@ Este projeto é dividido em duas partes.
 - Alguns processos assíncronos poderiam ser executados utilizando tópicos e filas como kafka
 - Outras soluções que poderiam ser utilizados: indexador de busca como elasticSearch, criação de índices no banco de dados
   ou até mesmo um Redis pra uma solução com cache.
+- A evolução do desenvolvimento do projeto pode ser observada a partir das branches criadas.
+- Iniciei o desenvolvimento do projeto no Sábado de manhã, e finalizei o mesmo no domingo de tarde.
+- De acordo com os meus testes, 2500 arquivos com 9000 linhas foram processados em 250 segundos. Total de 22_500_000 de registros
