@@ -16,7 +16,7 @@ app:
     total-lista-chaves: 20
     total-chaves-validacao: 20
   batch:
-    caminho-diretorio: ${APP-CAMINHO-DIRETORIO}
+    caminho-diretorio: ${APP_CAMINHO_DIRETORIO}
     habilitar-processo: true
     tempo-execucao-job-milisegundos: 180000
     total-arquivos-por-processo: 500
