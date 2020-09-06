@@ -18,8 +18,8 @@ app:
   batch:
     caminho-diretorio: ${APP-CAMINHO-DIRETORIO}
     habilitar-processo: true
-    tempo-execucao-job-milisegundos: 10000
-    total-arquivos-por-processo: 100
+    tempo-execucao-job-milisegundos: 180000
+    total-arquivos-por-processo: 200
     total-linhas-por-processo: 1000
     extensoes-arquivo:
       - txt

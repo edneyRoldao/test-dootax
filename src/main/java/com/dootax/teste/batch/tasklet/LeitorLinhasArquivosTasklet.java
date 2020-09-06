@@ -38,6 +38,9 @@ public class LeitorLinhasArquivosTasklet implements Tasklet, StepExecutionListen
         mapaLinhasPorArquivo = new HashMap<>();
         ExecutionContext context = stepExecution.getJobExecution().getExecutionContext();
         processosArquivos = (List<Future<Map<Path, Set<String>>>>) context.get("processos");
+
+        if (Objects.isNull(processosArquivos))
+            processosArquivos = new ArrayList<>();
     }
 
     @Override
@@ -68,9 +71,14 @@ public class LeitorLinhasArquivosTasklet implements Tasklet, StepExecutionListen
     }
 
     private void processarArquivosFinalizados() throws Exception {
+        log.info("Arquivos sendo processados. total processos: {}", processosArquivos.size());
+
         while (true) {
             if (processosArquivos.stream().allMatch(Future::isDone)) break;
         }
+
+        log.info("Arquivos processados com sucesso");
+
 
         int contadorProcessos = 1;
         for (Future<Map<Path, Set<String>>> processo : processosArquivos) {

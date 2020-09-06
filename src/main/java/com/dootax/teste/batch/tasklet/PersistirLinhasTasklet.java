@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Future;
 
 @Slf4j
@@ -34,6 +35,9 @@ public class PersistirLinhasTasklet implements Tasklet, StepExecutionListener {
     public void beforeStep(StepExecution stepExecution) {
         ExecutionContext context = stepExecution.getJobExecution().getExecutionContext();
         processosLinhas = (List<Future<List<ChaveDocumento>>>) context.get("processosLinhas");
+
+        if (Objects.isNull(processosLinhas))
+            processosLinhas = new ArrayList<>();
     }
 
     @Override

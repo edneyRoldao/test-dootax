@@ -28,8 +28,8 @@ public interface ChaveDocumentoAPI {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = GET_DOCS_CHAVE, notes = GET_DOCS_CHAVE_NOTE)
     ResponseEntity<Page<ChaveDocumento>> listarChaves(
-            @RequestParam(required = false) int idEmpresa,
-            @RequestParam(required = false) BigInteger chaveDocumento,
+            @RequestParam(required = false, defaultValue = "0") int idEmpresa,
+            @RequestParam(required = false, defaultValue = "0") BigInteger chaveDocumento,
             @RequestParam(required = false, defaultValue = "20") int pageSize,
             @RequestParam(required = false, defaultValue = "0") int pageNumber);
 

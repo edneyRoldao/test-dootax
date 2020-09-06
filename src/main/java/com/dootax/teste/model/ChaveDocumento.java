@@ -27,7 +27,7 @@ public class ChaveDocumento {
     @Column(length = 6, nullable = false)
     private int idEmpresa;
 
-    @Column(length = 44, nullable = false)
+    @Column(nullable = false, precision = 44)
     private BigInteger valorChave;
 
     @Enumerated(value = EnumType.STRING)
